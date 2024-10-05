@@ -27,25 +27,50 @@ class ReadmeGenerator:
         prompt = PromptTemplate(
             input_variables=["project_title", "sections"],
             template="""
-            Create a comprehensive and accurate README.md file for a GitHub project with the following title:
+            Create an exceptional, comprehensive, and human-like README.md file for a GitHub project with the following title:
             
             Project Title: {project_title}
             
             Include the following sections:
             {sections}
             
-            For each section, provide detailed, accurate, and informative content based on the project title.
-            Use proper Markdown syntax, including headings, lists, code blocks, and emphasis where appropriate.
-            For the Screenshots section, include placeholders for images.
-            For the Run Locally section, provide general steps that could apply to most projects.
-            Be creative with the content while keeping it professional, informative, and factually accurate.
-            Ensure that all information provided is relevant and realistic for the given project title.
+            Follow these guidelines to create an outstanding README:
+
+            1. Start with an eye-catching project logo or banner (use a placeholder URL).
+            2. Add badges for build status, version, license, etc., relevant to the project.
+            3. Provide a concise but compelling project description that highlights its unique value proposition.
+            4. For each section, provide detailed, accurate, and informative content tailored specifically to the project title.
+            5. Use proper Markdown syntax, including headings, lists, code blocks, tables, and emphasis where appropriate.
+            6. In the Features section, use emojis to make each feature stand out.
+            7. For the Screenshots section, include placeholders for images with descriptive alt text.
+            8. In the Installation section:
+               - Carefully consider the frameworks and dependencies based on the project title.
+               - Provide detailed, step-by-step instructions for different operating systems if relevant.
+               - Include any necessary environment setup (e.g., virtual environments, database setup).
+            9. For the Usage section, provide clear examples with code blocks and explanations.
+            10. In the API Reference section (if applicable), use tables to display endpoints, methods, and parameters.
+            11. For the Run Locally section:
+                - Provide specific steps tailored to the project, not just general steps.
+                - Include commands for cloning, installing dependencies, and running the project.
+            12. In the Roadmap section, use a task list to show upcoming features or improvements.
+            13. Add a 'Contributing' section with guidelines for potential contributors.
+            14. Include a 'License' section with the appropriate license for the project.
+            15. Add an 'Acknowledgements' section to credit libraries, tools, or contributors.
+            16. Conclude with contact information or links to the project's community (e.g., Discord, Twitter).
+            
+            Ensure all content is creative yet professional, informative, and factually accurate, maintaining relevance to the project title. The README should be visually appealing, well-structured, and easy to navigate, resembling a high-quality, human-crafted document.
             """
         )
+
+        # Combine sections into a single string with a newline separator
+        sections_str = "\n".join(sections)
         
+        # Generate the README content using the LLM chain
         chain = LLMChain(llm=self.llm, prompt=prompt)
-        response = chain.run(project_title=project_title, sections="\n".join(sections))
+        response = chain.run(project_title=project_title, sections=sections_str)
+        
         return response
+
 
 def set_page_config():
     st.set_page_config(page_title="AI README Generator By AiCraftAlchemy", page_icon="📝", layout="wide")
